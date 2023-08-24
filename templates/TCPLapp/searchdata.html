@@ -1,0 +1,474 @@
+
+
+
+
+{% comment %} {% load index %} {% endcomment %}
+<!-- djangotemplates/example/templates/index.html-->
+{% load static %}
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo1.png' %}">
+
+    <title>TCPL</title>
+    <!-- This is how to include a static file -->
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' type='text/css' %}" />
+   
+     <!-- BOOTSTRAP only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   
+    <!-- fontawsome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+
+    <!--fontaswome-->
+    <script src="http://kit.fontawesome.com/92608d0899.js" crossorigin="anonymous"></script>
+ 
+    <style>
+
+  
+      /* Navbar text color */
+      .navbar-light .navbar-nav .nav-link {
+        color: black !important;
+        font-weight: bold;
+        margin-right: 50px;
+      }
+    
+      /* Navbar hover color */
+      .navbar-light .navbar-nav .nav-link:hover {
+        color: #004aad !important;
+      }
+      .dropdown-item:hover{
+          color: #004aad !important;   
+      }
+      a{
+          text-decoration: none;
+          color:#004aad;
+          font-weight: bold;
+      }
+     
+      .delete-button button {
+        padding: 5px 10px;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+  
+      .my-swal-container
+      {
+        
+        align-items: center;
+        padding: 5px;
+        font-size: 10px;
+      }
+      .my-swal-input{
+       
+        width: 85%;
+        color:black;
+      }
+      .my_swal_title{
+        font-size: 20px;
+      }
+      .my-swal-button{
+        padding: 10px;
+      }
+      .my_icon{
+        font-size: 10px;
+      }
+      .my_swal_text{
+        font-size: 8px;
+      }
+  
+      table{
+        width: 70%;
+        border-collapse: collapse;
+        border: 1px solid #dee2e6;
+        height:50px;
+       
+  
+  
+      }
+      th{
+        font-size: 20px;
+        position: sticky;
+        top: 0;
+        background-color: #333;
+        color: black;
+        
+      }
+       td,th,tr{
+        border-collapse: collapse;
+        border:2px solid #bbb;
+        height:50px;
+  
+      }
+      .tablediv{
+  
+        
+        height: 400px;
+        overflow-y: auto;
+  
+      }
+
+      .poem {
+        overflow: scroll;
+        scrollbar-color: red orange;
+        scrollbar-width: thin;
+      }
+      
+  
+  
+    </style>
+       
+    <script>
+      window.onbeforeunload = function(){window.location.reload();}
+     </script>
+
+
+</head>
+        <body id="tblCustomers"  style=" color: #f8f9fa;"  class="poem">
+       
+
+          
+
+        <div>
+
+          
+          <div id="navbar-wrapper">
+             <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                 <div class="container-fluid pt-2">
+                   <a href="{% url 'index' %}">
+                     <h5 style="color: #004aad; padding-left: 30px;"> 
+                       <img  class="imglogo" src="{% static 'images/logo1.png' %}" alt="image not found" style="width: 40px; height: 40px; border-radius: 180%; background-color: #dddddd; margin-top: -3%;">
+                       TCPLGeo
+                     </h5>
+                   </a>
+               
+                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+                   </button>
+               
+                   <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: 15px;">
+                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                     
+               
+                         <li class="nav-item dropdown position-static" style="font-size: 15px;">
+                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
+                               Select option
+                             </a>
+                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="font-size: 14px; font-weight: bold;">
+                               <li>
+                                 {% comment %} <a type="button" class="dropdown-item" href="{% url 'main' %}">Search Village, Gut_Number, Taluka</a> {% endcomment %}
+                               </li>
+                               <li>
+                                 {% comment %} <a type="button" class="dropdown-item" href="{% url 'coordinates' %}">Search Coordinates</a> {% endcomment %}
+                               </li>
+                               <li>
+                                 <hr class="dropdown-divider">
+                               </li>
+                               <li>
+                                 <a class="dropdown-item" href="#">
+                                   <form method="post" enctype="multipart/form-data">
+                                     {% csrf_token %}
+                                     <input type="file" name="file">
+                                     <button type="submit" class="btn btn-outline-primary"><i class="fas fa-file-import"></i></button>
+                                   </form>
+                                 </a>
+                               </li>
+                               <li>
+                                 
+                                   {% comment %} <a class="dropdown-item" href="{% url 'export_kml' %}" class="btn btn-primary">Export KML</a> {% endcomment %}
+                                
+                               </li>
+                             </ul>
+                           </li>
+
+                          <!-- -->
+                          
+
+                          
+                           
+                           <input   class="text-bold text-center bg-success text-dark  text-capitalize" type="button" id="btnExport" value="DOWNLOAD HERE" /> 
+                          
+
+                       
+
+
+                           
+                                                   <!--Show username those login -->
+                       <li class="nav-item dropdown me-5 pe-5" style="font-size: 15px;">
+                        
+                        <h3 class="nav-link profile-username fw-bold text-capitalize" style="font-size: 15px; color: #004aad;" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          {{request.user}} 
+                        </h3>
+               
+                         <ul class="dropdown-menu me-5" aria-labelledby="navbarDropdown" style="font-size: 13px; padding: 20px;">
+                           <li>
+                             <label for="" class="p-2">User-Email :</label>
+                             <p class=" px-2" style="color: #004aad;">{{request.user.email}} </p>
+                           </li>
+                           <li>
+                           
+                           </li>
+                           <li>
+                             <hr class="dropdown-divider">
+                           </li>
+                               <!--PDF -->
+                           {% comment %} <li class="nav-item me-5">
+                             <button onclick="downloadPDF()" id="generatePdfButton" class="text-light border-0" style="background:#004aad;">
+                               <i class="fas fa-download"> Export map as PDF</i>
+                           </li>
+                           <li>
+                             <hr class="dropdown-divider">
+                           </li> {% endcomment %}
+                       
+                          
+                           <li>
+                             <div class="text-danger">
+                               <a href="{% url 'logout' %}" class="text-danger fw-bold p-1 px-2" style="border: 0; font-size: 15px; border-radius: 10px;" name="Logout" type="submit">
+                                 <i class="fas fa-sign-out-alt"></i>
+                                 <span class="d-none d-sm-inline">logout</span>
+
+                               </a>
+
+
+                             </div>
+                           </li>
+                         </ul>
+                       </li>
+                     </ul>
+                   </div>
+                 </div>
+               </nav>
+                    
+      
+    <div class="pt-5">
+
+                    {% comment %} <h1 class="text-bold text-center pt-5 text-success text-capitalize">  SEARCH HISTORY OF USER </h1> {% endcomment %}
+
+
+                    {% comment %} <p class=" px-2" style="color: #004aad;">{{ user.email }}</p>  {% endcomment %}
+                    <h4 class="text-bold text-center pt-5 text-success   text-capitalize">  SEARCH HISTORY</h4>
+                    <div class="p-5">
+                    <table  class="table  justify-content-center table-striped">
+                        <thead class="thead-dark">
+                          <tr>
+                           <th scope=col>user</th> 
+                            <th scope=col>VILLAGE</th>
+                            <th scope=col>TALUKA</th>  
+                            <th scope=col>GUTNUMBER</th>      
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% if search_datas %}
+                              {%for i in search_datas %}
+                            <tr>
+                              
+
+                              <td>{{i.user}}</td> 
+                              <td>{{i.village}}</a></td>
+                              <td>{{i.taluka}}</td>
+                              <td>{{i.gut}}</td>
+                            </tr>
+                            {% endfor %}
+                  
+                            {%else %}
+                            {% comment %} <h2>No data in database</h2> {% endcomment %}
+                            {% endif %}
+                            
+                          </tbody>
+                        </table>
+                      </table>
+                    </div>
+
+
+
+
+                    
+                    <h4 class="text-bold text-center pt-5 text-success text-capitalize">  BOOKMARKS HISTORY</h4>
+                    <div class="p-5">
+                      <table  class="table table-striped pt-5">
+                        <thead class="thead-dark">
+                            <tr>
+                            
+                              <th scope=col>VILLAGE</th>
+                              <th scope=col>LATITUDE</th>  
+                              <th scope=col>LONGITUDE</th>      
+                            </tr>
+                          </thead>
+                          <tbody>
+                              {% if locations %}
+                                {%for i in locations %}
+                              <tr>
+                                
+  
+                                {% comment %} <td>{{i.user}}</td>  {% endcomment %}
+                                <td>{{i.name}}</a></td>
+                                <td>{{i.latitude}}</td>
+                                <td>{{i.longitude}}</td>
+                              </tr>
+                              {% endfor %}
+                    
+                              {%else %}
+                              {% comment %} <h2>No data in database</h2> {% endcomment %}
+                              {% endif %}
+                              
+                            </tbody>
+                          </table>
+                        </table>
+                      </div>
+                  
+
+
+                  
+    </div>
+                
+        </div>
+
+       
+      </div>
+      <br />
+      {% comment %} pdf query {% endcomment %}
+         
+          <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+          <script type="text/javascript">
+              $("body").on("click", "#btnExport", function () {
+                  html2canvas($('#tblCustomers')[0], {
+                      onrendered: function (canvas) {
+                          var data = canvas.toDataURL();
+                          var docDefinition = {
+                              content: [{
+                                  image: data,
+                                  width: 500
+                              }]
+                          };
+                          pdfMake.createPdf(docDefinition).download("cutomer-details.pdf");
+                      }
+                  });
+              });
+          </script>
+      
+      
+      
+      
+         
+        <!--Bootstrap-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      {% comment %}                 
+      <script>
+        function downloadPDF() {
+          const {
+            jsPDF
+          } = window.jspdf;
+          html2canvas(document.getElementById('map'), {
+            useCORS: true
+          }).then(function(canvas) {
+        
+              const pdf = new jsPDF('p', 'px', [canvas.width, canvas.height]);
+             
+              const textWidth = pdf.getStringUnitWidth(text) * fontSize / pdf.internal.scaleFactor;
+              const textHeight = fontSize / pdf.internal.scaleFactor;
+              // Calculate the center position
+              const pageWidth = pdf.internal.pageSize.getWidth();
+              const pageHeight = pdf.internal.pageSize.getHeight();
+              const x = (pageWidth - textWidth) / 2;
+              const y = 70;
+              // Set the line width for the border
+              pdf.setLineWidth(2);
+              // Draw a rectangle around the page to simulate a border
+              pdf.rect(5, 5, pageWidth - 10, pageHeight - 10); // Adjust the values for margins
+              // Draw the inner rectangle to simulate the inner line of the border
+              pdf.rect(10, 10, pageWidth - 20, pageHeight - 20); // Adjust the values for margins
+             
+              // Get the height of the canvas element and add it to the PDF
+              var imgHeight = canvas.height;
+              // const fontSize = 25;
+              pdf.setFont('Times New Roman', 'bold'); // Use the regular variant
+              //  pdf.setFontSize(15);
+              //  pdf.setTextColor('black');
+              //  pdf.text((x+50), 90, ` Block number 22, Lokamanya Nagar, Sadashiv Peth, Pune, Maharashtra 411030`);
+              // Add text above the map (centered both horizontally and vertically)
+              pdf.setFont('Times New Roman', 'bold');
+              pdf.setFontSize(fontSize);
+              pdf.setTextColor('#004aac');
+              pdf.text(x, y, text);
+              // Add user's name to the PDF_______________________________________________________
+              const uppercaseUsername = username.toUpperCase();
+              pdf.setFont('Times New Roman', 'bold');
+              pdf.setFontSize(16);
+              pdf.setTextColor('black');
+              pdf.text(20, 150, `User:       ${uppercaseUsername} `, null, null, 'left');
+              //  pdf.text(70, 150, username , null, null, 'left');
+              // Add user's email to the PDF
+              pdf.setTextColor('black');
+              pdf.setFont('Times New Roman', 'bold');
+              pdf.text(20, 170, `Email:`, null, null, 'left');
+              pdf.setTextColor('black');
+              pdf.text(70, 170, email, null, null, 'left');
+              //  Date__________________________________________________________________________________
+              const currentDate = new Date();
+              const options = {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              };
+              const formattedDate = currentDate.toLocaleDateString('en-US', options);
+              const rightAlignedX = pdf.internal.pageSize.getWidth() - pdf.getStringUnitWidth(formattedDate) * 12;
+              // const y = 110; // Adjust the Y coordinate as needed
+              // Add the formatted date to the PDF
+              pdf.setFontSize(15);
+              pdf.setTextColor('black');
+              pdf.text(rightAlignedX, 150, `Date: ${formattedDate}`, null, null, 'right');
+              pdf.setFontSize(15);
+              pdf.setTextColor('black');
+              pdf.text(rightAlignedX, 1350, 'TCPLgeo', null, null, 'right');
+              // map_______________________________________________________________________
+              // Add the image to the PDF without any scaling or clipping
+              pdf.addImage(imgData, 'PNG', 30, 200, 780, 700);
+              //  NOTE________________________________________________________________
+              // pdf.setFont('MyCustomFont');
+              pdf.setFontSize(15);
+              pdf.setTextColor('black');
+              pdf.text(30, 1300, 'NOTE :  This is sample data of Zone-Certificate');
+              // Sign_____________________________
+              pdf.save('TCPLmaps.pdf');
+            }), 
+           
+          };
+        
+      </script> {% endcomment %}
+                      
+       
+              
+                          <!--html2canvas-->
+                          {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script> {% endcomment %}
+                          {% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>     {% endcomment %}
+                          <!-- jquery -->
+                          {% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> {% endcomment %}
+                          <script
+                        src="https://code.jquery.com/jquery-3.7.0.min.js"
+                        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+                        crossorigin="anonymous"></script>
+                          <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+                          <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+      
+      
+      
+      
+      
+      
+      
+                          
+    </body>
+</html>
+
+  
